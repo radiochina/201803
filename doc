@@ -1,0 +1,17 @@
+将数组A赋值给数组B
+有两种方法可以实现。
+1 逐个赋值法。
+采用循环，逐项赋值。
+以整型为例，int a[10], b[10];
+要把a的值赋值给b,可以写作
+int i;
+for(i = 0; i < 10; i ++)
+    b[i] = a[i];
+2 整体复制法。
+利用C语言库函数memcpy可以整体复制。memcpy声明与string.h中，形式为
+void * memcpy(void *dst, void *src, int length);
+其功能为将src地址上长度为length字节的数据，复制到dst上。
+于是上一个方法中的例子，可以用
+memcpy(b,a,sizeof(a));
+来实现相同效果。
+代码量较前一个方法更少，同时效率也更高。
