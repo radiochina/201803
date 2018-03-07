@@ -71,7 +71,7 @@ unsigned char *key_word[]=
         "QTH","WEATHER","RIG","ANT","RST","CALLSIGN"
 };
 
-unsigned char *answer_mode_for_key_word[6][3]=
+unsigned char *response_mode_for_key_word[6][3]=
 {
         {"QTH ","HR QTH ","MY QTH IN "},
         {"WEATHER ","WEATHER HR ","HR WEATHER "},
@@ -83,12 +83,15 @@ unsigned char *answer_mode_for_key_word[6][3]=
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-extern unsigned char Data_buffer_from_server[180];
-extern unsigned char Data_buffer_to_server[180];
+extern unsigned char *point_Data_from_server;
+extern unsigned char *point_Data_to_server;
 
-unsigned char Data_buffer_from_client[180];
-unsigned char Data_buffer_to_client[180];
+extern unsigned char Data_to_server[lenth_of_data_buffer];
+extern unsigned char Data_from_server[lenth_of_data_buffer];
+
+
+unsigned char Data_from_client[lenth_of_data_buffer];
+unsigned char Data_to_client[lenth_of_data_buffer];
 unsigned char CALLSIGN_buffer[10];
 
 unsigned char *radio_in_server_state[6];
@@ -129,9 +132,11 @@ void key_word_searching_and_accessing()
         unsigned char i;
         char *p;
         unsigned char key_word_find=0;
-        //printf("----Now in key_word_searching_and_accessing()\n");
 
-        p=strstr(Data_buffer_from_client,"CQ");               //searching CQ
+        unsigned char *p2;
+
+        //printf("----Now in key_word_searching_and_accessing()\n");
+        p=strstr(Data_from_client,"CQ");               //searching CQ
         if(p)
         {
                 printf("				CQ searched-----------\n");
@@ -139,18 +144,33 @@ void key_word_searching_and_accessing()
         //search key word :QTH WEATHER RIG ANT RST CALLSIGN
         for(i=0; i<number_of_key_word; i++)
         {
-                p=strstr(Data_buffer_from_client,key_word[i]);
+                p=strstr(Data_from_client,key_word[i]);
                 if(p)
                 {
-                        printf("%s",answer_mode_for_key_word[i][rand()%3]);
-                        printf("%s",radio_in_server_state[i]);
-                        printf(" ");
+                        p2=response_mode_for_key_word[i][rand()%3];/////////
+
+////////////////////////////////////////////////////////////////////////////////
+                        point_Data_from_server=p2;
+                        strcat(Data_from_server,point_Data_from_server); //把b连接到c的串尾
+////////////////////////////////////////////////////////////////////////////////
+                        printf("%s",p2);/////
+                        printf("%s",radio_in_server_state[i]);/////
+
+                        strcat(Data_from_server,radio_in_server_state[i]);
+
+                        printf(" ");////////
+                        strcat(Data_from_server," ");
+
                         key_word_find=1;
                 }
         }
         if(key_word_find)
         {
-                printf("de bg3tk k ");
+                printf("de bg3tk k "); printf("\n");
+                strcat(Data_from_server,"de bg3tk k ");
+
+                printf("%s",Data_from_server);/////
+
                 key_word_find=0;
         }
         printf("\n");
@@ -171,8 +191,8 @@ void Set_radio_in_client()
 
 void send_data_to_client()
 {
-        strcpy(Data_buffer_from_server,Data_buffer_to_client);
-        memset(Data_buffer_to_client,'\0',sizeof(char));//发送缓冲区清零
+        strcpy(Data_from_server,Data_to_client);
+        memset(Data_to_client,'\0',sizeof(char));//发送缓冲区清零
 }
 
 void Server_State_check()
@@ -181,11 +201,11 @@ void Server_State_check()
 }
 void Server()
 {
-        if( (*Data_buffer_from_client) != '\0')//接收缓冲区非空
+        if( (*Data_from_client) != '\0')//接收缓冲区非空
         {
-                //delay(1000*(rand()%10));放在client
+                //delay(1000*(rand()%10));
                 key_word_searching_and_accessing();
-                memset(Data_buffer_from_client,'\0',sizeof(char));//接收缓冲区清零
+                memset(Data_from_client,'\0',sizeof(char));//接收缓冲区清零
         }
         if (No_radio_prepared)
         {

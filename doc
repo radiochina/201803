@@ -1,3 +1,4 @@
+AAAA
 将数组A赋值给数组B
 有两种方法可以实现。
 1 逐个赋值法。
@@ -15,3 +16,20 @@ void * memcpy(void *dst, void *src, int length);
 memcpy(b,a,sizeof(a));
 来实现相同效果。
 代码量较前一个方法更少，同时效率也更高。
+
+BBBB
+
+c语言中，两个字符指针怎么进行拼接？
+
+先加头文件#include<string.h>
+char a[10]="123";
+char b[10]="abc";
+strcat(a,b); //连接两个字符串，连接后的字符串存放在a中，数组a中有足够空间
+printf("%s",a); //输出连接后的字符串
+或：
+#include<string.h>
+char a[10]="123";
+char b[10]="abc";
+char c[20];
+strcpy(c,a); //把串a复制到有足够空间的c中
+strcat(c,b); //把b连接到c的串尾

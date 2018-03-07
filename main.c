@@ -12,7 +12,7 @@ void Client();
 
 extern unsigned char client_data_received;
 extern unsigned char No_radio_prepared;
-extern unsigned char Data_buffer_to_server_OK;
+extern unsigned char Data_to_server_OK;
 //delay second
 //sleep(2);
 ////delay usecond
@@ -28,7 +28,7 @@ int main(void)
 
         Send_to_speaker("cq", 750);
 
-        Data_buffer_to_server_OK=1;
+        Data_to_server_OK=1;
 
         No_radio_prepared=1;
 
