@@ -5,15 +5,15 @@ unsigned char CALLSIGN_buffer[10];
 unsigned char auto_key_buffer[50];
 
 unsigned char auto_key_buffer_OK=0;
-extern unsigned char Data_buffer_to_server_OK;
-extern unsigned char Data_buffer_to_server[180];
-
+extern unsigned char Data_to_server_OK;
+extern unsigned char Data_to_server[lenth_of_data_buffer];
+extern unsigned char Data_to_server_OK;
 void Auto_key_scan()
 {
         printf(">>>\n");
-        gets(Data_buffer_to_server);
+        gets(Data_to_server);
         //printf(">>>, %s\n", Data_buffer_to_server);
-        Data_buffer_to_server_OK=1;
+        Data_to_server_OK=1;
 }
 /*
    void str(char *p1, char *p2)

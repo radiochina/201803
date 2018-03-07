@@ -9,3 +9,5 @@
 #define Auto_key_inB  5
 
 #define Speaker       6
+
+#define lenth_of_data_buffer  250
